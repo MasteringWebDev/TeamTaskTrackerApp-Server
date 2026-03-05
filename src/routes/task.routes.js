@@ -4,10 +4,10 @@ const router = express.Router()
 const { isAuthenticated } = require('../middlewares/auth')
 
 const {
-  getTasks,
+  // getTasks,
   createTask,
-  updateTask,
-  deleteTask
+  // updateTask,
+  // deleteTask
 } = require('../controllers/task.controllers')
 
 router.use(isAuthenticated)

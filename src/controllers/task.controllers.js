@@ -1,4 +1,4 @@
-const Task = require('../models/task.model')
+const Task = require('../models/task.models')
 
 const createTask = async (req, res) => {
   try {
@@ -36,8 +36,8 @@ const createTask = async (req, res) => {
 
 
 module.exports = {
-  getTasks,
+  // getTasks,
   createTask,
-  updateTask,
-  deleteTask
+  // updateTask,
+  // deleteTask
 }
