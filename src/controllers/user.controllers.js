@@ -62,9 +62,11 @@ const loginUser = async (req, res) => {
       })
     }
 
-    delete user.password
-
-    const { _id } = user
+    const { 
+      _id, 
+      fullName, 
+      department
+    } = user
     const expirySeconds = 60*60 // 1 hour
     const token = jwt.sign(
       { _id }, 
@@ -79,8 +81,12 @@ const loginUser = async (req, res) => {
 
     res.json({
       status: 'SUCCESS',
-      message: `Welcome back, ${user.firstName}`,
-      user
+      message: `Welcome back, ${fullName}`,
+      user: {
+        _id, 
+        fullName, 
+        department
+      }
     })
   } catch (error) {
     res.status(500).json({
@@ -107,7 +113,7 @@ const logoutUser = async (req, res) => {
 
 const getCurrentUser = async (req, res) => {
   try {
-    const user = await User.findById(req._id).select('-password')
+    const user = await User.findById(req._id).select('fullName department')
     if(!user) {
       return res.status(404).json({
         status: 'FAILED',

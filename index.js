@@ -5,7 +5,10 @@ const mongoose = require('mongoose')
 var cookieParser = require('cookie-parser')
 const cors = require('cors')
 
+const logger = require('./src/middlewares/logger')
+
 const userRoutes = require('./src/routes/user.routes')
+const taskRoutes = require('./src/routes/task.routes')
 
 const app = express()
 app.use(cookieParser())
@@ -15,7 +18,10 @@ app.use(cors({
   credentials: true
 }))
 
+app.use(logger)
+
 app.use('/users', userRoutes)
+app.use('/tasks', taskRoutes)
 
 app.get('/', (req, res) => {
   res.json({
