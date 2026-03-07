@@ -11,6 +11,13 @@ const signupUser = async (req, res) => {
       department
     } = req.body
 
+    if(password.length < 6) {
+      return res.status(400).json({
+        status: 'FAILED',
+        message: 'Password should be minimum 6 characters'
+      })
+    }
+
     const encryptedPassword = await bcrypt.hash(password, 10)
 
     await User.create({
@@ -25,6 +32,7 @@ const signupUser = async (req, res) => {
       message: 'Account created successfully'
     })
   } catch (error) {
+    console.log(error)
     res.status(500).json({
       status: 'FAILED',
       message: 'Server error'
