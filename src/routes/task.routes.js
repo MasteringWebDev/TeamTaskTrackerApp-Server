@@ -3,7 +3,8 @@ const router = express.Router()
 
 const { 
   isAuthenticated,
-  isTaskCreator
+  isTaskCreator,
+  isTaskCreatorOrAssignee
 } = require('../middlewares/auth')
 
 const {
@@ -17,7 +18,7 @@ router.use(isAuthenticated)
 
 router.get('/', getTasks)
 router.post('/', createTask)
-router.patch('/:id', isTaskCreator, updateTask)
+router.patch('/:id', isTaskCreatorOrAssignee, updateTask)
 router.delete('/:id', isTaskCreator, deleteTask)
 
 module.exports = router

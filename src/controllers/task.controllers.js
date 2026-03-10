@@ -2,7 +2,7 @@ const Task = require('../models/task.models')
 
 const getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find().populate('creator', 'fullName department')
+    const tasks = await Task.find().populate('creator', 'fullName department').populate('assignee', 'fullName department')
 
     res.json({
       status: 'SUCCESS',
@@ -32,7 +32,8 @@ const createTask = async (req, res) => {
       priority,
       status,
       deadline,
-      creator: req._id
+      creator: req._id,
+      assignee: null
     })
 
     const taskWithCreator = await task.populate('creator', 'fullName department')
@@ -59,7 +60,8 @@ const updateTask = async (req, res) => {
       description,
       priority,
       status,
-      deadline
+      deadline,
+      assignee
     } = req.body
 
     if(title != undefined) task.title = title
@@ -67,17 +69,16 @@ const updateTask = async (req, res) => {
     if(priority != undefined) task.priority = priority
     if(status != undefined) task.status = status
     if(deadline != undefined) task.deadline = deadline
+    if(assignee != undefined) task.assignee = assignee
 
     await task.save()
 
-    const taskWithCreator = await task.populate('creator', 'fullName department')
-
     res.json({
       status: 'SUCCESS',
-      message: 'Task updated successfully',
-      task: taskWithCreator
+      message: 'Task updated successfully'
     })
   } catch (error) {
+    console.log(error)
     res.status(500).json({
       status: 'FAILED',
       message: 'Server error'

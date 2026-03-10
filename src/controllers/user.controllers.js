@@ -141,9 +141,26 @@ const getCurrentUser = async (req, res) => {
   }
 }
 
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.find({}).select('fullName department')
+
+    res.json({
+      status: 'SUCCESS',
+      users
+    })
+  } catch (error) {
+    res.status(500).json({
+      status: 'FAILED',
+      message: 'Server error'
+    })
+  }
+}
+
 module.exports = {
   signupUser,
   loginUser,
   logoutUser,
-  getCurrentUser
+  getCurrentUser,
+  getUsers
 }
